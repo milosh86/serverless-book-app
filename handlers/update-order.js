@@ -7,13 +7,19 @@ function updateOrder(order) {
       "To update order pizza please provide order id, pizza type and address where pizza should be delivered"
     );
 
-  return docClient.update({
-    TableName: "pizza-orders",
-    Key: { orderId: order.id },
-    UpdateExpression: {
-        
-    }
-  });
+  return docClient
+    .update({
+      TableName: "pizza-orders",
+      Key: { orderId: order.id },
+      UpdateExpression: `SET pizza = :p, address = :a`,
+      ExpressionAttributeValues: {
+        ":p": order.pizzaId,
+        ":a": order.address
+      },
+      ReturnValues: "ALL_NEW"
+    })
+    .promise()
+    .then(res => res.Attributes);
 }
 
 module.exports = updateOrder;
