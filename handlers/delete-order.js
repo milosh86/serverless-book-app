@@ -10,7 +10,7 @@ function deleteOrder(orderId) {
     Key: {
       orderId: orderId
     }
-  });
+  }).promise();
 }
 
 module.exports = deleteOrder;

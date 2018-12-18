@@ -14,12 +14,13 @@ function updateOrder(order) {
       UpdateExpression: `SET pizza = :p, address = :a`,
       ExpressionAttributeValues: {
         ":p": order.pizzaId,
-        ":a": order.address
+        ":a": order.address,
+        ":s": "pending"
       },
-      ReturnValues: "ALL_NEW"
+      ReturnValues: "ALL_NEW",
+      ConditionExpression: "orderStatus = :s"
     })
-    .promise()
-    .then(res => res.Attributes);
+    .promise();
 }
 
 module.exports = updateOrder;
